@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <emscripten/emscripten.h>
+#include <string.h>
 
 // define pointer struct, containing postion colour
 struct Point
@@ -174,6 +175,7 @@ void create_data()
 }
 
 Music bgm;
+char displayText[256] = "xxxx\n11111";
 Font customFont;
 int frame = 0;
 bool extend = true;
@@ -190,7 +192,7 @@ void UpdateDrawFrame()
     Vector2 origin = { 0.0f, 0.0f };
     DrawTexturePro(frameTextures[frame].texture, sourceRec, destRec, origin, 0.0f, WHITE);
 
-    const char* text = "xxxx\n11111";
+    const char* text = displayText;
     int fontSize = 50;
     int spacing = 2;
     
@@ -236,6 +238,25 @@ int main()
     SetMusicVolume(bgm, 0.5f);
 
     create_data();
+    
+    #ifdef __EMSCRIPTEN__
+    char* url_text = (char*)EM_ASM_PTR({
+        const params = new URLSearchParams(window.location.search);
+        var t = params.get('text');
+        if (!t) return 0;
+        t = decodeURIComponent(t);
+        var len = lengthBytesUTF8(t) + 1;
+        var buf = _malloc(len);
+        stringToUTF8(t, buf, len);
+        return buf;
+    });
+
+    if (url_text) {
+        strncpy(displayText, url_text, 255);
+        free(url_text);
+    }
+    #endif
+
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 
     for (int i = 0; i < frames; i++) 
