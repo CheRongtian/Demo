@@ -12,11 +12,17 @@
             align-items: center;
             height: 100vh;
             overflow: hidden;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            touch-action: none;
         }
         canvas.emscripten { 
             border: 0px none; 
             background-color: black;
-            /* width: 100vw; height: 100vh; */
         }
     </style>
   </head>
@@ -29,9 +35,8 @@
         printErr: (function() { return function(text) { console.error(text); }; })(),
         canvas: (function() {
           var canvas = document.getElementById('canvas');
-          canvas.addEventListener("click", function() {
-            window.focus();
-          }, false);
+          canvas.addEventListener("click", function() { window.focus(); }, false);
+          canvas.addEventListener("touchstart", function() { window.focus(); }, false);
           return canvas;
         })(),
         setStatus: function(text) {
