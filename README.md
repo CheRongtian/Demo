@@ -53,4 +53,4 @@ Follow these steps to compile and run the animation:
     ./heart
     ```
 ## Web Version
-You can check that version: https://github.com/CheRongtian/Demo/tree/web-version, and there is also a github page deployment~
+You can check that version: https://github.com/CheRongtian/Particle_Heart/tree/web-version, and there is also a github page deployment~
