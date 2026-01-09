@@ -39,16 +39,19 @@ Follow these steps to compile and run the animation:
     ```bash
     mkdir build
     cd build
-    mv GreatVibes-Regular.ttf "Inuyasha - To Love's End - Erhu Cover by Eliott Tordo_MP3.mp3" build/
     ```
 
 3.  **Compile with CMake**
     ```bash
-    cmake ..
+    emcmake cmake ..
     make
     ```
 
 4.  **Run the application**
     ```bash
-    ./heart
+    python3 -m http.server
     ```
+
+5.  **Open the test web**
+    Open browser, then go to http://localhost:8000/heart.html, click the screen to hear the bgm
+    use ```control``` + ```C``` in the shell to end the program
