@@ -60,3 +60,5 @@ Follow these steps to compile and run the animation:
 ## Link
 Visit the link to check the final outcome
 https://cherongtian.github.io/Demo/, and do not forget to click to unlock the bgm.
+
+Also, you can use link like https://cherongtian.github.io/Demo/?text=name%0Adate for specific person( ᐛ ) (you can modify the value for the text by yourself~~)
