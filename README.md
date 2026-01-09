@@ -8,6 +8,8 @@ brew install raylib
 ```
 It is designed to run natively on macOS(M3).
 
+I also added bgm from famous Japanese Anime: *Inuyasha: A Feudal Fairy Tale*, which is also suitable for the topic
+
 ## Features
 
 - **Cross-Platform**: Built with [Raylib](https://www.raylib.com/), replacing the obsolete Windows GDI dependency. Runs smoothly on macOS.
@@ -37,7 +39,7 @@ Follow these steps to compile and run the animation:
     ```bash
     mkdir build
     cd build
-    mv GreatVibes-Regular.ttf build/
+    mv GreatVibes-Regular.ttf "Inuyasha - To Love's End - Erhu Cover by Eliott Tordo_MP3.mp3" build/
     ```
 
 3.  **Compile with CMake**

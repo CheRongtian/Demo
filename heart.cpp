@@ -174,10 +174,15 @@ void create_data()
 int main()
 {
     InitWindow(xScreen, yScreen, "Mac-Version Particle Heart");
+    InitAudioDevice();
     SetTargetFPS(60);
     srand((unsigned int)time(NULL));
 
     Font customFont = LoadFontEx("GreatVibes-Regular.ttf", 96, 0, 0);
+    Music bgm = LoadMusicStream("Inuyasha - To Love's End - Erhu Cover by Eliott Tordo_MP3.mp3");
+
+    PlayMusicStream(bgm);
+    SetMusicVolume(bgm, 0.5f);
 
     create_data();
     int frame = 0;
@@ -186,6 +191,7 @@ int main()
 
     while (!WindowShouldClose()) 
     {
+        UpdateMusicStream(bgm);
         BeginDrawing();
         ClearBackground(BLACK);
 
@@ -233,6 +239,7 @@ int main()
     }
     
     UnloadFont(customFont);
+    UnloadMusicStream(bgm);
     CloseWindow();
 
     return 0;
