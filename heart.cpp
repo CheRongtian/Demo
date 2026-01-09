@@ -29,6 +29,8 @@ const int frames = 20;
 // define colours
 Color particleColors[] = 
 {
+    /*
+    // cyan-based colour
     (Color){0, 255, 255, 255},
     (Color){0, 240, 240, 255},
     (Color){0, 220, 220, 255},
@@ -36,6 +38,16 @@ Color particleColors[] =
     (Color){0, 180, 180, 255},
     (Color){0, 160, 160, 255},
     (Color){0, 140, 140, 255}
+    */
+
+   // pink-based colour
+    (Color){255, 182, 193, 255},
+    (Color){255, 105, 180, 255},
+    (Color){255, 20, 147, 255},
+    (Color){219, 112, 147, 255},
+    (Color){199, 21, 133, 255},
+    (Color){255, 192, 203, 255},
+    (Color){220, 20, 60, 255}
 };
 
 // dot storage array
@@ -62,7 +74,7 @@ int create_random(int x1, int x2)
 }
 
 Color AdjustBrightness(Color c, double factor) {
-    if (factor <= 0) factor = 0.1; // 防止除以0
+    if (factor <= 0) factor = 0.1;
     unsigned char r = (unsigned char)(c.r / factor);
     unsigned char g = (unsigned char)(c.g / factor);
     unsigned char b = (unsigned char)(c.b / factor);
@@ -100,7 +112,7 @@ void create_data()
 
         for(int i = 0; i < origin_count; i++)
         {
-            if(success_p > (double) create_random(0, 100) / 100.0 && i < circles * origin_count)
+            if(success_p > (double) create_random(0, 100) / 100.0 && current_points_index < circles * quantity)
             {
                 Color baseColor = particleColors[create_random(0, 6)];
                 points[current_points_index].color = AdjustBrightness(baseColor, lightness);
@@ -164,13 +176,16 @@ int main()
     InitWindow(xScreen, yScreen, "Mac-Version Particle Heart");
     SetTargetFPS(60);
     srand((unsigned int)time(NULL));
-    
+
+    Font customFont = LoadFontEx("GreatVibes-Regular.ttf", 96, 0, 0);
+
     create_data();
     int frame = 0;
     bool extend = true;
     int frameCounter = 0;
 
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose()) 
+    {
         BeginDrawing();
         ClearBackground(BLACK);
 
@@ -179,24 +194,45 @@ int main()
         Vector2 origin = { 0.0f, 0.0f };
         DrawTexturePro(frameTextures[frame].texture, sourceRec, destRec, origin, 0.0f, WHITE);
 
+        const char* text = "xxxx\n11111";
+        int fontSize = 50;
+        int spacing = 2;
+    
+        Vector2 textSize = MeasureTextEx(customFont, text, fontSize, spacing);
+        Vector2 textPos;
+    
+
+        textPos.x = xScreen / 2 - textSize.x / 2;
+        textPos.y = yScreen / 2 - textSize.y / 2;
+
+        DrawTextEx(customFont, text, textPos, fontSize, spacing, Fade(PURPLE, 0.9f));
+
         EndDrawing();
 
         frameCounter++;
-        if (frameCounter >= 2) {
+        if (frameCounter >= 2) 
+        {
             frameCounter = 0;
-            if (extend) {
+            if (extend) 
+            {
                 if (frame == frames - 1) extend = false;
                 else frame++;
-            } else {
+            } 
+            
+            else 
+            {
                 if (frame == 0) extend = true;
                 else frame--;
             }
         }
     }
 
-    for (int i = 0; i < frames; i++) {
+    for (int i = 0; i < frames; i++) 
+    {
         UnloadRenderTexture(frameTextures[i]);
     }
+    
+    UnloadFont(customFont);
     CloseWindow();
 
     return 0;
