@@ -53,5 +53,10 @@ Follow these steps to compile and run the animation:
     ```
 
 5.  **Open the test web**
+
     Open browser, then go to http://localhost:8000/heart.html, click the screen to hear the bgm
     use ```control``` + ```C``` in the shell to end the program
+
+## Link
+Visit the link to check the final outcome
+https://cherongtian.github.io/Demo/, and do not forget to click to unlock the bgm.
