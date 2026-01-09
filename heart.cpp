@@ -5,6 +5,8 @@
 #include <math.h>
 #include <stdlib.h>
 #include <vector>
+#include <emscripten/emscripten.h>
+
 // define pointer struct, containing postion colour
 struct Point
 {
@@ -171,67 +173,70 @@ void create_data()
     }
 }
 
+Music bgm;
+Font customFont;
+int frame = 0;
+bool extend = true;
+int frameCounter = 0;
+
+void UpdateDrawFrame()
+{
+    UpdateMusicStream(bgm);
+    BeginDrawing();
+    ClearBackground(BLACK);
+
+    Rectangle sourceRec = { 0.0f, 0.0f, (float)frameTextures[frame].texture.width, (float)-frameTextures[frame].texture.height };
+    Rectangle destRec = { 0.0f, 0.0f, (float)xScreen, (float)yScreen };
+    Vector2 origin = { 0.0f, 0.0f };
+    DrawTexturePro(frameTextures[frame].texture, sourceRec, destRec, origin, 0.0f, WHITE);
+
+    const char* text = "xxxx\n11111";
+    int fontSize = 50;
+    int spacing = 2;
+    
+    Vector2 textSize = MeasureTextEx(customFont, text, fontSize, spacing);
+    Vector2 textPos;
+    
+    textPos.x = xScreen / 2 - textSize.x / 2;
+    textPos.y = yScreen / 2 - textSize.y / 2;
+
+    DrawTextEx(customFont, text, textPos, fontSize, spacing, Fade(PURPLE, 0.9f));
+
+    EndDrawing();
+
+    frameCounter++;
+    if(frameCounter >= 2) 
+    {
+        frameCounter = 0;
+        if(extend) 
+        {
+            if (frame == frames - 1) extend = false;
+            else frame++;
+        } 
+            
+        else 
+        {
+            if (frame == 0) extend = true;
+            else frame--;
+        }
+    }
+}
+
 int main()
 {
-    InitWindow(xScreen, yScreen, "Mac-Version Particle Heart");
+    InitWindow(xScreen, yScreen, "Mac-Version Particle Heart, Web");
     InitAudioDevice();
     SetTargetFPS(60);
     srand((unsigned int)time(NULL));
 
-    Font customFont = LoadFontEx("GreatVibes-Regular.ttf", 96, 0, 0);
-    Music bgm = LoadMusicStream("Inuyasha - To Love's End - Erhu Cover by Eliott Tordo_MP3.mp3");
+    customFont = LoadFontEx("font.ttf", 96, 0, 0);
+    bgm = LoadMusicStream("bgm.mp3");
 
     PlayMusicStream(bgm);
     SetMusicVolume(bgm, 0.5f);
 
     create_data();
-    int frame = 0;
-    bool extend = true;
-    int frameCounter = 0;
-
-    while (!WindowShouldClose()) 
-    {
-        UpdateMusicStream(bgm);
-        BeginDrawing();
-        ClearBackground(BLACK);
-
-        Rectangle sourceRec = { 0.0f, 0.0f, (float)frameTextures[frame].texture.width, (float)-frameTextures[frame].texture.height };
-        Rectangle destRec = { 0.0f, 0.0f, (float)xScreen, (float)yScreen };
-        Vector2 origin = { 0.0f, 0.0f };
-        DrawTexturePro(frameTextures[frame].texture, sourceRec, destRec, origin, 0.0f, WHITE);
-
-        const char* text = "xxxx\n11111";
-        int fontSize = 50;
-        int spacing = 2;
-    
-        Vector2 textSize = MeasureTextEx(customFont, text, fontSize, spacing);
-        Vector2 textPos;
-    
-
-        textPos.x = xScreen / 2 - textSize.x / 2;
-        textPos.y = yScreen / 2 - textSize.y / 2;
-
-        DrawTextEx(customFont, text, textPos, fontSize, spacing, Fade(PURPLE, 0.9f));
-
-        EndDrawing();
-
-        frameCounter++;
-        if (frameCounter >= 2) 
-        {
-            frameCounter = 0;
-            if (extend) 
-            {
-                if (frame == frames - 1) extend = false;
-                else frame++;
-            } 
-            
-            else 
-            {
-                if (frame == 0) extend = true;
-                else frame--;
-            }
-        }
-    }
+    emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 
     for (int i = 0; i < frames; i++) 
     {

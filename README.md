@@ -8,7 +8,7 @@ brew install raylib
 ```
 It is designed to run natively on macOS(M3).
 
-I also added bgm from famous Japanese Anime: *Inuyasha: A Feudal Fairy Tale*, which is also suitable for the topic
+I also added bgm from famous Japanese Anime: *Inuyasha: A Feudal Fairy Tale*, *To Love's End*, which is also suitable for the topic
 
 ## Features
 

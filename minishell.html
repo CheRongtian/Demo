@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <title>Heart Simulation</title>
+    <style>
+        body { 
+            margin: 0; 
+            background-color: black;
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        canvas.emscripten { 
+            border: 0px none; 
+            background-color: black;
+            /* width: 100vw; height: 100vh; */
+        }
+    </style>
+  </head>
+  <body>
+    <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
+    
+    <script type='text/javascript'>
+      var Module = {
+        print: (function() { return function(text) { console.log(text); }; })(),
+        printErr: (function() { return function(text) { console.error(text); }; })(),
+        canvas: (function() {
+          var canvas = document.getElementById('canvas');
+          canvas.addEventListener("click", function() {
+            window.focus();
+          }, false);
+          return canvas;
+        })(),
+        setStatus: function(text) {
+          if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
+          if (text === Module.setStatus.last.text) return;
+        },
+        totalDependencies: 0,
+        monitorRunDependencies: function(left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+        }
+      };
+    </script>
+    {{{ SCRIPT }}}
+  </body>
+</html>
