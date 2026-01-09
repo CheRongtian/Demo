@@ -52,3 +52,5 @@ Follow these steps to compile and run the animation:
     ```bash
     ./heart
     ```
+## Web Version
+You can check that version: https://github.com/CheRongtian/Demo/tree/web-version, and there is also a github page deployment~
